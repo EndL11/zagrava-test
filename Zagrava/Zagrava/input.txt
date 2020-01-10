@@ -1,8 +1,11 @@
 4 3
-<tag1 value = "HelloWorld" name = "Your_name">
+<tag1 value = "HelloWorld">
 <tag2 name = "Name1">
 </tag2>
+<tag3 attribute = "value">
 </tag1>
 tag1.tag2~name
 tag1~name
+tag3~attribute
 tag1~value
+tag3~name

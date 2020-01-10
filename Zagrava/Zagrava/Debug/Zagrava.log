@@ -1,7 +1,8 @@
 ﻿  main.cpp
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(135): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(159): warning C4018: <=: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(178): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(198): warning C4018: <=: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(219): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(89): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(113): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(114): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(196): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(222): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(241): warning C4018: <: несоответствие типов со знаком и без знака
   Zagrava.vcxproj -> D:\Projects\С++ projects\ZGML\Zagrava\Debug\Zagrava.exe

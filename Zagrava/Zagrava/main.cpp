@@ -32,20 +32,24 @@ class Tag {
 public:
 	string name;
 	vector<Attribute> attrs;
-	Tag *parent;
-	bool is_closed = false;
+	string parent;
+	bool is_closed;
 
 	Tag() {
 		name = "tag";
-		parent = this;
+		parent = name;
+		is_closed = false;
 	}
 	Tag(string n) {
 		name = n;
-		parent = this;
+		parent = name;
+		is_closed = false;
 	}
-	Tag(string n, Tag *t) {
-		name = n;		
-		parent = t;
+	void Closed() {
+		this->is_closed = !this->is_closed;
+	}
+	void SetParent(string str) {
+		parent = str;
 	}
 	~Tag() {};
 	void AddAttr(Attribute &attr) {
@@ -53,12 +57,15 @@ public:
 	}
 	void Show() {
 		cout << "Name: " << name << endl;
-		//cout << "Parent tag: " << parent->name << endl;
+		cout << "Parent tag: " << parent << endl;
 		cout << "Attributes:\n";
-		if(attrs.size() > 0)
-		for (auto k : attrs) {
-			cout << k << endl;
+		if (attrs.size() > 0)
+		{
+			for (auto k : attrs) {
+				cout << k << endl;
+			}
 		}
+
 	}
 
 };
@@ -111,25 +118,6 @@ int main() {
 				amount_of_requests = stoi(s);
 			}
 			cout << s << endl;
-			if (s.find_first_not_of('<', 0)) {
-				string attr = "";
-				for (int j = 0; j <= s.size(); j++) {
-					if (s[j] != '<' && s[j] != '>' && s[j] != '/' && s[j] != ' ') {
-						attr += s[j];
-					}
-				}
-				tags.push_back(attr);
-				created_tags++;
-				if (tag_vec.size() < 1) {
-					Tag tag(attr);
-					tag_vec.push_back(tag);
-				}
-				else {
-					Tag tag(attr, &tag_vec[tag_vec.size() - 1]);
-					tag_vec.push_back(tag);
-				}
-			}
-
 			if (
 				s.find("=") == std::string::npos
 				&& !s.find_first_not_of("\"", 0)
@@ -139,6 +127,7 @@ int main() {
 				&& i != 1
 				) {
 				Attribute attr(s);
+				attrs.push_back(attr);
 				attributes.push_back(s);
 			}
 			if (s.find("\"") != std::string::npos) {
@@ -149,11 +138,57 @@ int main() {
 					}
 				}
 				attributes_value.push_back(attr);
+				attrs[attributes_value.size()-1].value = attr;
+				if (tag_vec.size() > 0) {
+					for (int l = tag_vec.size() - 1; l >= 0; l--) {
+						if (tag_vec[l].is_closed == false) {
+							tag_vec[l].attrs.push_back(attrs[attributes_value.size() - 1]);
+							break;
+						}
+					}
+				}
 			}
 
 			if (s.find("~") != std::string::npos) {
 				requests.push_back(s);
 				created_requests++;
+			}
+
+			if (s.find_first_not_of('<', 0)) {
+				string attr = "";
+				for (int j = 0; j <= s.size(); j++) {
+					if (s[j] != '<' && s[j] != '>' && s[j] != '/' && s[j] != ' ') {
+						attr += s[j];
+					}
+				}
+				tags.push_back(attr);
+				created_tags++;
+				if (s.find("/>") != std::string::npos && s.find("<") != std::string::npos) {
+					Tag tag(attr);
+					tag.Closed();
+					tag_vec.push_back(tag);
+					continue;
+				}
+				if (tag_vec.size() < 1) {
+					Tag tag(attr);
+					tag_vec.push_back(tag);
+				}
+				else {
+					bool indic = false;
+					for (int t = 0; t < tag_vec.size(); t++) {
+						if (tag_vec[t].name == attr) {
+							tag_vec[t].Closed();
+							indic = true;
+							break;
+						}
+					}
+					if (indic) {
+						continue;
+					}
+					Tag tag(attr);
+					tag.SetParent(tag_vec[tag_vec.size() - 1].name);
+					tag_vec.push_back(tag);
+				}
 			}
 
 		}
@@ -217,6 +252,10 @@ int main() {
 		for (auto t : tag_vec) {
 			t.Show();
 			cout << t.is_closed << endl;
+		}
+
+		for (auto a : attrs) {
+			cout << a.name << " = " << a.value << endl;
 		}
 
 	}

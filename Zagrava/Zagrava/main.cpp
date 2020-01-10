@@ -1,14 +1,29 @@
-#include <cmath>
-#include <cstdio>
 #include <vector>
 #include <iostream>
-#include <algorithm>
 
+//додані бібліотеки
 #include <fstream>
 #include <string>
+/*
+	В коді є закоментовані ділянки, вони використовувались для виведення різної інформації, 
+	так як по завданню необхідно виводити лише відповіді на запити, я закоментував їх, але
+	можливо в майбутньому це знадобиться або ж просто для виведення різної інформації:
+	
+		- виведення тегів
+		- виведення атрибутів
+		- виведення зчитаних даних
+		- виведення запитів
 
+	Для цього реалізовано перевантаження операторів виведення. 
+
+	Якщо вони зайві, їх завжди можна видалити
+
+	Сподіваюсь все правильно :)
+*/
 using namespace std;
+
 class Tag;
+
 class Attribute {
 public:
 	string name;
@@ -28,6 +43,7 @@ public:
 		return os;
 	}
 };
+
 class Tag {	
 public:
 	string name;
@@ -41,12 +57,6 @@ public:
 		is_closed = false;
 	}
 	Tag(string n) {
-		//string nam = "";
-		//for (int i = 0; i < n.size()-1; i++) {
-		//	if (n[i] != ' ') {
-		//		nam += n[i];
-		//	}
-		//}
 		name = n;
 		parent = name;
 		is_closed = false;
@@ -58,9 +68,6 @@ public:
 		parent = str;
 	}
 	~Tag() {};
-	void AddAttr(Attribute &attr) {
-		this->attrs.push_back(attr);
-	}
 	void Show() {
 		cout << "******Tag******" << endl;
 		cout << "Name: " << name << endl;
@@ -74,7 +81,6 @@ public:
 		}
 		cout << "******Tag******" << endl << endl;
 	}
-
 };
 
 class Request {
@@ -105,7 +111,7 @@ public:
 			}
 
 		}
-		cout << "Attribute is " << at << endl;
+		//cout << "Attribute is " << at << endl;
 		attribute = at;
 	}
 	   
@@ -122,7 +128,7 @@ public:
 
 	void PrintResponse() {
 		if (response != "")
-			cout << "Response is " << response << endl;
+			cout << response << endl;
 		else
 			cout << "Not found!" << endl;
 	}
@@ -137,7 +143,7 @@ public:
 	}
 };
 
-
+//	виведення переданого рядкового вектору
 void PrintVector(vector<string> &v) {
 	for (auto s : v) {
 		cout << s << endl;
@@ -147,8 +153,13 @@ void PrintVector(vector<string> &v) {
 int main() {
 	/* Enter your code here. Read input from file input.txt. Print output to STDOUT */
 	setlocale(LC_ALL, "ru");
-	ifstream input_file("input.txt");
 
+	//	відкриття файлу
+	ifstream input_file("input.txt");
+	
+	//	збереження значень кількості тегів і кількості запитів
+	//	але я зрозумів що це вказує на кількість зчитування рядків до переносу, коли вже зробив ось цим способом
+	//	можна вважати ці дані зайвими, але по завданню вони є, тому я залишу це тут...
 	int amount_of_tags, amount_of_requests;
 	int created_tags = 0, created_requests = 0;
 
@@ -157,10 +168,8 @@ int main() {
 	vector<Request> reqs;
 
 	string s;
-	vector<string> tags;
 	vector<string> attributes;
 	vector<string> attributes_value;
-	vector<string> requests;
 
 	if (!input_file.is_open())
 	{
@@ -168,8 +177,6 @@ int main() {
 	}
 	else
 	{
-		cout << "Все ОК! Файл открыт!\n\n";
-
 		int i = 0;
 		for (input_file >> s; !input_file.eof(); input_file >> s, i++) {
 			if (i == 0) {
@@ -178,7 +185,8 @@ int main() {
 			else if (i == 1) {
 				amount_of_requests = stoi(s);
 			}
-			cout << s << endl;
+
+			//	додавання атрибуту
 			if (
 				s.find("=") == std::string::npos
 				&& !s.find_first_not_of("\"", 0)
@@ -191,10 +199,12 @@ int main() {
 				attrs.push_back(attr);
 				attributes.push_back(s);
 			}
+
+			//	додавання значення атрибуту
 			if (s.find("\"") != std::string::npos) {
 				string attr = "";
 				for (int j = 0; j < s.size(); j++) {
-					if (s[j] != '>' && s[j] != '\"' && s[j] != ' ') {
+					if (s[j] != '>' && s[j] != '\"' && s[j] != ' ' && s[j] != '/') {
 						attr += s[j];
 					}
 				}
@@ -210,13 +220,14 @@ int main() {
 				}
 			}
 
+			//	додавання запиту
 			if (s.find("~") != std::string::npos) {
 				Request req(s);
 				reqs.push_back(req);
-				requests.push_back(s);
 				created_requests++;
 			}
 
+			//	додавання тега
 			if (s.find_first_not_of('<', 0)) {
 				string attr = "";
 				for (int j = 0; j < s.size(); j++) {
@@ -224,19 +235,23 @@ int main() {
 						attr += s[j];
 					}
 				}
-				tags.push_back(attr);
 				created_tags++;
+
+				//	якщо тег одразу закритий
 				if (s.find("/>") != std::string::npos && s.find("<") != std::string::npos) {
 					Tag tag(attr);
 					tag.Closed();
 					tag_vec.push_back(tag);
 					continue;
 				}
+
 				if (tag_vec.size() < 1) {
 					Tag tag(attr);
 					tag_vec.push_back(tag);
 				}
 				else {
+
+					//	індикатор вказує що це повторний(закриваючий) тег
 					bool indic = false;
 					for (int t = 0; t < tag_vec.size(); t++) {
 						if (tag_vec[t].name == attr) {
@@ -261,55 +276,52 @@ int main() {
 
 				}
 			}
-
 		}
 
-		if (s.find("~") != std::string::npos) {
-			Request req(s);
-			reqs.push_back(req);
-			requests.push_back(s);
-			created_requests++;
+		if (input_file.is_open()) {
+			// додавання останнього зчитаного запиту
+			if (s.find("~") != std::string::npos) {
+				Request req(s);
+				reqs.push_back(req);
+				created_requests++;
+			}
 		}
 
+		//	закриття файлу
+		input_file.close();
 
-		input_file.clear();
-		input_file.seekg(0, ios::beg);
+		//cout << endl;
+		//cout << "Количество тегов: " << amount_of_tags << endl;
+		//cout << "Количество запросов: " << amount_of_requests << endl;
+		//cout << "\nTags:" << endl;
+		//PrintVector(tags);
 
-		cout << endl;
-		cout << amount_of_tags << endl;
-		cout << amount_of_requests << endl;
-		cout << "\nTags:" << endl;
-		PrintVector(tags);
+		//cout << "\nAttributes:" << endl;
+		//PrintVector(attributes);
 
-		cout << "\nAttributes:" << endl;
-		PrintVector(attributes);
+		//cout << "\nAttributes values:" << endl;
+		//PrintVector(attributes_value);
 
-		cout << "\nAttributes values:" << endl;
-		PrintVector(attributes_value);
+		//cout << "\nRequests:" << endl;
+		//PrintVector(requests);
 
-		cout << "\nRequests:" << endl;
-		PrintVector(requests);
+		//cout << endl << endl;
 
-		cout << endl << endl;
-
-		for (auto t : tag_vec) {
-			t.Show();
-			//cout << t.is_closed << endl;
-		}
+		//for (auto t : tag_vec) {
+		//	t.Show();
+		//	cout << t.is_closed << endl;
+		//}
 
 		//for (auto a : attrs) {
 		//	cout << a << endl;
 		//}
 
+		//	отримання відповідей на запити
 		for (auto r : reqs) {
 			r.GetResponse(tag_vec);
-			cout << r << endl;
+			//cout << r << endl;
 		}
-
-	}
-
-	
-	input_file.close();
+	}	
 	system("pause");
 	return 0;
 }

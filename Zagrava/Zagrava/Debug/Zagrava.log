@@ -1,8 +1,13 @@
 ﻿  main.cpp
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(92): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(116): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(117): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(203): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(230): warning C4018: <: несоответствие типов со знаком и без знака
-d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(253): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(107): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(133): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(134): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(149): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(152): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(164): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(177): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(183): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(184): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(272): warning C4018: <: несоответствие типов со знаком и без знака
+d:\projects\с++ projects\zgml\zagrava\zagrava\main.cpp(299): warning C4018: <: несоответствие типов со знаком и без знака
   Zagrava.vcxproj -> D:\Projects\С++ projects\ZGML\Zagrava\Debug\Zagrava.exe
